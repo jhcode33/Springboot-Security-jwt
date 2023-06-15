@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jhcode33.jwt.model.User;
 import com.jhcode33.jwt.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 public class RestAPIController {
 	
 	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	UserRepository userReposiroty;
+	private final UserRepository userReposiroty;
 
 	@GetMapping("home")
 	public String home() {

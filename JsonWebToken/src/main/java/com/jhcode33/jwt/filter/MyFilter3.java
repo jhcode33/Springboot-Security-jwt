@@ -29,11 +29,11 @@ public class MyFilter3 implements Filter {
 		if(req.getMethod().equals("POST")) {
 			System.out.println("Post 요청됨");
 			String headerAuth = req.getHeader("Authorization");
-			System.out.println(headerAuth);
+			System.out.println("Authorization header: " + headerAuth);
 			
 			// 토큰 : cos -> 토큰이 cos로 날라올 때만 작동하도록.
 			if(headerAuth.equals("cos")) { //이게 서명을 만들 때 사용하는 server의 고유 키 값이 되는 것임.
-				System.out.println("필터3");
+				System.out.println("server 서명과 일치, 필터3 동작함");
 				chain.doFilter(req, res);
 				
 			} else {
