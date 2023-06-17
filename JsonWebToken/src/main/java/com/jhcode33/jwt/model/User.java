@@ -22,6 +22,7 @@ public class User {
 	private String password;
 	private String roles;  //USER, ADMIN
 	
+	//EUM이 아니라 , 로 파싱해서 구분하는데 다른 방법 없나?
 	public List<String> getRoleList(){
 		if(this.roles.length() > 0) {
 			return Arrays.asList(this.roles.split(","));
