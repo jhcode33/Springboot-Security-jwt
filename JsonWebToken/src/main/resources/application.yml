@@ -10,8 +10,13 @@ server:
 #JAP SQL의 바인딩된 파라미터가 보이게 설정함.
 logging:
   level:
+    #"[org.springframework]": ERROR
+    #"[org.hibernamte]": ERROR
     "[org.hibernate.SQL]": DEBUG
     "[org.hibernate.type.descriptor.sql.BasicBinder]": TRACE
+    
+    #"[com.jhcode33.jwt.JsonWebTokenApplication]": ERROR
+    
 
 spring:
   datasource:

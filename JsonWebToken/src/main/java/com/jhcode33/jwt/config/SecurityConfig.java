@@ -3,18 +3,12 @@ package com.jhcode33.jwt.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.filter.CorsFilter;
 
-import com.jhcode33.jwt.config.jwt.JwtAuthenticationFilter;
-import com.jhcode33.jwt.config.jwt.JwtAuthorizationFilter;
-import com.jhcode33.jwt.repository.UserRepository;
+import com.jhcode33.jwt.filter.MyCustomFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig{
 	
 	@Autowired
-	private final UserRepository userRepository;
-	
-	@Autowired
-	private final CorsConfig corsConfig;
+	private final MyCustomFilter myCustomFilter;
 	
 //	@Override
 //	protected void configure(HttpSecurity http) throws Exception {
@@ -62,7 +53,8 @@ public class SecurityConfig{
 				   	.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				 	.formLogin(formLogin -> formLogin.disable())
 				 	.httpBasic(httpBasic -> httpBasic.disable())
-				 	
+				 	.apply(myCustomFilter)
+				 .and()
 				 	//URL에 대한 권한 설정
 				 	.authorizeRequests(authroize -> authroize.antMatchers("/api/v1/user/**")
 				 											.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
@@ -75,14 +67,14 @@ public class SecurityConfig{
 				 	
 	}
 	
-	public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
-			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-			http
-					.addFilter(corsConfig.corsFilter())
-					.addFilter(new JwtAuthenticationFilter(authenticationManager))
-					.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
-		}
-	}
+//	public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+//		@Override
+//		public void configure(HttpSecurity http) throws Exception {
+//			AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+//			http
+//					.addFilter(corsConfig.corsFilter())
+//					.addFilter(new JwtAuthenticationFilter(authenticationManager))
+//					.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+//		}
+//	}
 }
