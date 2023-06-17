@@ -17,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class RestAPIController {
-	
+	/* 스프링은 생성자를 통한 의존성 주입을 권장하고 있다. @Autowired 어노테이션은 @RequiredArgsConstructor
+	 * 어노테이션으로 final 키워드가 붙은 필드가 생성자를 통한 의존성을 이루어진 후 이미 의존되어있기 때문에 동작하지않는다.
+	 * 다만 의존성 주입을 하는 것을 명시해주기 위해서 붙인다.
+	*/
 	@Autowired
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
